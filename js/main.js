@@ -10,21 +10,27 @@ const sixStarChars = [
     { name: "骏卫", rarity: 6, featured: false }
 ];
 const fiveStarChars = [
-    { name: "佩丽卡", rarity: 5, featured: false }, { name: "弧光", rarity: 5, featured: false },
-    { name: "艾维文娜", rarity: 5, featured: false }, { name: "大潘", rarity: 5, featured: false },
-    { name: "陈千语", rarity: 5, featured: false }, { name: "狼卫", rarity: 5, featured: false },
-    { name: "赛希", rarity: 5, featured: false }, { name: "昼雪", rarity: 5, featured: false },
+    { name: "佩丽卡", rarity: 5, featured: false },
+    { name: "弧光", rarity: 5, featured: false },
+    { name: "艾维文娜", rarity: 5, featured: false },
+    { name: "大潘", rarity: 5, featured: false },
+    { name: "陈千语", rarity: 5, featured: false },
+    { name: "狼卫", rarity: 5, featured: false },
+    { name: "赛希", rarity: 5, featured: false },
+    { name: "昼雪", rarity: 5, featured: false },
     { name: "阿列什", rarity: 5, featured: false }
 ];
 const fourStarChars = [
-    { name: "秋栗", rarity: 4, featured: false }, { name: "卡契尔", rarity: 4, featured: false },
-    { name: "埃特拉", rarity: 4, featured: false }, { name: "萤石", rarity: 4, featured: false },
+    { name: "秋栗", rarity: 4, featured: false },
+    { name: "卡契尔", rarity: 4, featured: false },
+    { name: "埃特拉", rarity: 4, featured: false },
+    { name: "萤石", rarity: 4, featured: false },
     { name: "安塔尔", rarity: 4, featured: false }
 ];
 const allCharacters = [...sixStarChars, ...fiveStarChars, ...fourStarChars];
 const featuredOperator = sixStarChars.find(c => c.featured === true);
 
-// ==================== Banner 状态 ====================
+// ==================== 卡池状态 ====================
 let bannerState = {
     baseRates: { 6: 0.008, 5: 0.08, 4: 0.912 },
     currentRates: { 6: 0.008, 5: 0.08, 4: 0.912 },
@@ -209,7 +215,7 @@ function resetSimulation() {
     const singleBtn = document.getElementById('singleBtn');
     singleBtn.disabled = false;
     updateAllDisplay();
-    document.getElementById('resultArea').innerHTML = '<div style="color:#aaa;">已重置，可以重新开始抽卡</div>';
+    document.getElementById('resultArea').innerHTML = '<div style="color:#aaa; text-align:center;">已重置，可以重新开始抽卡</div>';
 }
 
 // ==================== UI 更新函数 ====================
@@ -243,12 +249,12 @@ function updateStatsDisplay() {
 
 function updateHistoryDisplay() {
     let historyBox = document.getElementById('historyBox');
-    let recent = bannerState.pullHistory.slice(-1000);
+    let recent = bannerState.pullHistory.slice(-100);
     if (recent.length === 0) {
         historyBox.innerHTML = '<div style="color:#aaa; text-align:center;">暂无抽卡记录</div>';
         return;
     }
-    let startIdx = Math.max(0, bannerState.pullHistory.length - 1000);
+    let startIdx = Math.max(0, bannerState.pullHistory.length - 100);
     let html = '';
     recent.forEach((char, idx) => {
         let indexNum = startIdx + idx + 1;
@@ -287,21 +293,43 @@ function updateAllDisplay() {
     updateHistoryDisplay();
 }
 
+// 获取星级对应的颜色
+function getRarityColor(rarity) {
+    if (rarity === 6) return '#FF8A80';
+    if (rarity === 5) return '#FFB74D';
+    return '#B39DDB';
+}
+
+// 抽取结果显示
 function displayPullResult(results, isTenPull = false) {
     let resultArea = document.getElementById('resultArea');
+    
     if (!isTenPull) {
+        // 单抽结果
         let char = results;
-        let color = char.rarity === 6 ? '#FF8A80' : (char.rarity === 5 ? '#FFB74D' : '#B39DDB');
+        let color = getRarityColor(char.rarity);
         let upText = (char.featured && char.rarity === 6) ? ' ✨UP✨' : '';
-        resultArea.innerHTML = `<div class="result-name" style="background:${color}20; border-left:6px solid ${color};">${char.name}${upText}</div>`;
+        resultArea.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; min-height: 150px;">
+            <div class="result-name" style="background:${color}20; border-left:4px solid ${color};">${char.name}${upText}</div>
+        </div>`;
     } else {
-        let itemsHtml = '';
-        results.forEach(char => {
-            let color = char.rarity === 6 ? '#FF8A80' : (char.rarity === 5 ? '#FFB74D' : '#B39DDB');
-            let upFlag = (char.featured && char.rarity === 6) ? ' (UP)' : '';
-            itemsHtml += `<div style="font-size:1rem; margin:6px 0;"><span style="color:${color}; font-weight:bold;">${char.name}</span>${upFlag}</div>`;
+        // 十连结果
+        let itemsHtml = '<div class="ten-pull-list">';
+        results.forEach((char, index) => {
+            let color = getRarityColor(char.rarity);
+            let borderColor = color;
+            let upFlag = (char.featured && char.rarity === 6) ? ' ✨UP' : '';
+            itemsHtml += `
+                <div class="ten-pull-item" style="border-left-color: ${borderColor};">
+                    <span class="ten-pull-number">${index + 1}.</span>
+                    <span style="color: ${color}; font-weight: bold;">${char.name}</span>
+                    ${upFlag ? '<span style="color: #FFD700; font-size: 0.8rem;">(UP)</span>' : ''}
+                </div>
+            `;
         });
-        resultArea.innerHTML = `<div style="max-height:200px; overflow-y:auto; width:100%;">${itemsHtml}</div>`;
+        itemsHtml += '</div>';
+        resultArea.innerHTML = itemsHtml;
+        resultArea.scrollTop = 0;
     }
 }
 
@@ -342,7 +370,6 @@ function initCharacterList() {
     document.getElementById('sixStarList').innerHTML = sixHtml;
     document.getElementById('fiveStarList').innerHTML = fiveHtml;
     document.getElementById('fourStarList').innerHTML = fourHtml;
-    document.getElementById('featuredName').innerHTML = `✨ 当前UP角色: ${featuredOperator.name}`;
 }
 
 // ==================== 绑定事件 ====================

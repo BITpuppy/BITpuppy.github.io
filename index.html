@@ -14,18 +14,18 @@
         <div class="card">
             <div class="card-header">📋 卡池信息</div>
             <div class="card-content">
-                <div class="featured-badge" id="featuredName">✨【狼珀】特许寻访</div>
+                <div class="featured-badge">✨【狼珀】特许寻访</div>
                 <div class="char-list">
                     <div><span class="rarity-6">6★</span> <span id="sixStarList"></span></div>
-                    <div style="margin-top: 8px;"><span class="rarity-5">5★</span> <span id="fiveStarList"></span></div>
-                    <div style="margin-top: 8px;"><span class="rarity-4">4★</span> <span id="fourStarList"></span></div>
+                    <div style="margin-top: 6px;"><span class="rarity-5">5★</span> <span id="fiveStarList"></span></div>
+                    <div style="margin-top: 6px;"><span class="rarity-4">4★</span> <span id="fourStarList"></span></div>
                 </div>
             </div>
         </div>
 
         <!-- 历史记录 -->
-        <div class="card">
-            <div class="card-header">📜 历史记录</div>
+        <div class="card history-card">
+            <div class="card-header">📜 抽卡记录</div>
             <div class="card-content" style="padding: 8px 12px;">
                 <div class="history-box" id="historyBox">
                     <div style="color:#aaa; text-align:center;">暂无抽卡记录</div>
@@ -34,7 +34,7 @@
         </div>
 
         <!-- 统计信息 -->
-        <div class="card">
+        <div class="card stats-card">
             <div class="card-header">📊 抽卡统计</div>
             <div class="card-content">
                 <div class="stats-grid">
@@ -43,7 +43,7 @@
                     <div class="stat-item"><span class="stat-label">5★角色</span><span class="stat-value five" id="stat5">0</span></div>
                     <div class="stat-item"><span class="stat-label">4★角色</span><span class="stat-value four" id="stat4">0</span></div>
                     <div class="stat-item"><span class="stat-label">总抽卡数</span><span class="stat-value" id="statTotal">0</span></div>
-                    <div class="stat-item"><span class="stat-label">平均6星抽数</span><span class="stat-value" id="statAvg">N/A</span></div>
+                    <div class="stat-item"><span class="stat-label">平均6★抽数</span><span class="stat-value" id="statAvg">N/A</span></div>
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
     <!-- 右侧面板 -->
     <div class="right-panel">
         <!-- 概率&保底 -->
-        <div class="card">
+        <div class="card rate-card">
             <div class="card-header">🎲 抽取概率</div>
             <div class="card-content">
                 <div class="info-grid">
@@ -69,7 +69,7 @@
         </div>
 
         <!-- 抽卡结果展示 -->
-        <div class="card">
+        <div class="card result-card">
             <div class="card-header">🎯 抽取结果</div>
             <div class="result-area" id="resultArea">
                 <div style="color:#aaa;">点击「单抽」或「十连」开始</div>
@@ -77,15 +77,15 @@
         </div>
 
         <!-- 操作按钮 -->
-        <div class="card">
+        <div class="card button-card">
             <div class="card-header">🎰 抽卡操作</div>
             <div class="card-content">
                 <div class="button-group">
                     <button id="singleBtn" class="btn-single">单抽</button>
                     <button id="tenBtn" class="btn-ten">十连</button>
                 </div>
-                <div class="button-group" style="margin-top: 12px;">
-                    <button id="resetBtn" class="btn-reset">重置全部数据</button>
+                <div class="button-group" style="margin-top: 10px;">
+                    <button id="resetBtn" class="btn-reset">重置模拟器</button>
                 </div>
             </div>
         </div>
