@@ -1,0 +1,266 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    background-color: #2b2b2b;
+    font-family: 'Microsoft YaHei', 'Segoe UI', 'PingFang SC', Roboto, 'Helvetica Neue', sans-serif;
+    color: #ffffff;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 主容器 */
+.simulator-container {
+    max-width: 1400px;
+    width: 100%;
+    background-color: #2b2b2b;
+    border-radius: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+/* 左侧面板 */
+.left-panel {
+    flex: 1.2;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* 右侧面板 */
+.right-panel {
+    flex: 2;
+    min-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* 通用卡片样式 */
+.card {
+    background-color: #363636;
+    border-radius: 12px;
+    border: 1px solid #555555;
+    overflow: hidden;
+    transition: all 0.2s;
+}
+
+.card-header {
+    background-color: #2f2f2f;
+    padding: 12px 18px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #4a4a4a;
+    color: #e0e0e0;
+    letter-spacing: 1px;
+}
+
+.card-content {
+    padding: 16px 18px;
+}
+
+/* UP角色高亮条 */
+.featured-badge {
+    background-color: #4a2a1a;
+    color: #FF8A80;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    border-left: 4px solid #FF8A80;
+}
+
+/* 角色列表滚动 */
+.char-list {
+    max-height: 200px;
+    overflow-y: auto;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    padding-right: 5px;
+}
+
+.char-list::-webkit-scrollbar {
+    width: 5px;
+}
+.char-list::-webkit-scrollbar-track {
+    background: #2b2b2b;
+    border-radius: 4px;
+}
+.char-list::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.rarity-6 { color: #FF8A80; font-weight: bold; }
+.rarity-5 { color: #FFB74D; font-weight: bold; }
+.rarity-4 { color: #B39DDB; font-weight: bold; }
+.up-tag { color: #FFD700; font-size: 0.75rem; margin-left: 4px; }
+
+/* 历史记录区域 */
+.history-box {
+    background-color: #404040;
+    border-radius: 10px;
+    padding: 12px;
+    height: 280px;
+    overflow-y: auto;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+.history-item {
+    border-bottom: 1px solid #555;
+    padding: 4px 0;
+    display: flex;
+    gap: 8px;
+}
+.history-index {
+    color: #aaa;
+    font-weight: 500;
+    min-width: 55px;
+}
+
+/* 统计网格 */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+    margin-top: 5px;
+}
+.stat-item {
+    background: #2f2f2f;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.stat-label {
+    font-size: 0.85rem;
+    color: #ccc;
+}
+.stat-value {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.stat-value.up { color: #FF8A80; }
+.stat-value.six { color: #FF8A80; }
+.stat-value.five { color: #FFB74D; }
+.stat-value.four { color: #B39DDB; }
+
+/* 概率/保底行 */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.info-cell {
+    background: #2f2f2f;
+    padding: 8px;
+    border-radius: 8px;
+}
+.info-label {
+    font-size: 0.75rem;
+    color: #aaa;
+}
+.info-number {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* 抽卡结果展示 */
+.result-area {
+    background-color: #404040;
+    border-radius: 12px;
+    padding: 20px;
+    min-height: 300px;
+    font-size: 1.2rem;
+    line-height: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.result-name {
+    font-size: 1.6rem;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 40px;
+    display: inline-block;
+}
+
+/* 按钮区域 */
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+button {
+    flex: 1;
+    padding: 12px 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    color: white;
+}
+.btn-single {
+    background-color: #4CAF50;
+}
+.btn-single:hover {
+    background-color: #45a049;
+    transform: scale(1.02);
+}
+.btn-ten {
+    background-color: #2196F3;
+}
+.btn-ten:hover {
+    background-color: #1976D2;
+}
+.btn-reset {
+    background-color: #f44336;
+}
+.btn-reset:hover {
+    background-color: #d32f2f;
+}
+.btn-free {
+    background-color: #FF9800;
+}
+.btn-free:hover {
+    background-color: #F57C00;
+}
+button:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+    transform: none;
+}
+
+hr {
+    border-color: #555;
+    margin: 8px 0;
+}
+
+@media (max-width: 800px) {
+    body { padding: 10px; }
+    .result-name { font-size: 1.2rem; }
+    .info-grid { gap: 6px; }
+    .button-group button { font-size: 1rem; }
+}
