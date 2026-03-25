@@ -67,12 +67,12 @@ function calculateCurrentRates(state) {
     if (pity6 >= rateUpStart && !rateUpAvailable) {
         state.rateUpAvailable = true;
         let increment = 0.05 * (pity6 - rateUpStart);
-        newRates[6] = baseRates[6] + increment;
+        newRates[6] = Math.min(baseRates[6] + increment, 0.5);
         newRates[4] = baseRates[4] - increment;
         newRates[5] = baseRates[5];
     } else if (state.rateUpAvailable) {
         let increment = 0.05 * (pity6 - rateUpStart);
-        newRates[6] = baseRates[6] + increment;
+        newRates[6] = Math.min(baseRates[6] + increment, 0.5);
         newRates[4] = baseRates[4] - increment;
         newRates[5] = baseRates[5];
     } else {
@@ -249,12 +249,12 @@ function updateStatsDisplay() {
 
 function updateHistoryDisplay() {
     let historyBox = document.getElementById('historyBox');
-    let recent = bannerState.pullHistory.slice(-100);
+    let recent = bannerState.pullHistory.slice(-1000);
     if (recent.length === 0) {
         historyBox.innerHTML = '<div style="color:#aaa; text-align:center;">暂无抽卡记录</div>';
         return;
     }
-    let startIdx = Math.max(0, bannerState.pullHistory.length - 100);
+    let startIdx = Math.max(0, bannerState.pullHistory.length - 1000);
     let html = '';
     recent.forEach((char, idx) => {
         let indexNum = startIdx + idx + 1;
@@ -269,6 +269,7 @@ function updateHistoryDisplay() {
                  </div>`;
     });
     historyBox.innerHTML = html;
+    historyBox.scrollTop = historyBox.scrollHeight;
 }
 
 function updateFreeTenButtonUI() {
@@ -303,34 +304,38 @@ function getRarityColor(rarity) {
 // 抽取结果显示
 function displayPullResult(results, isTenPull = false) {
     let resultArea = document.getElementById('resultArea');
+    let itemsHtml = '<div class="pull-list">';
     
     if (!isTenPull) {
         // 单抽结果
         let char = results;
         let color = getRarityColor(char.rarity);
-        let upText = (char.featured && char.rarity === 6) ? ' ✨UP✨' : '';
-        resultArea.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; min-height: 150px;">
-            <div class="result-name" style="background:${color}20; border-left:4px solid ${color};">${char.name}${upText}</div>
-        </div>`;
+        let upFlag = (char.featured && char.rarity === 6) ? ' ✨UP' : '';
+        itemsHtml += `
+            <div class="pull-item" style="border-left-color: ${color};">
+                <span class="pull-number">1.</span>
+                <span style="color: ${color}; font-weight: bold;">${char.name}</span>
+                ${upFlag ? '<span style="color: #FFD700; font-size: 0.75rem;">(UP)</span>' : ''}
+            </div>
+        `;
     } else {
         // 十连结果
-        let itemsHtml = '<div class="ten-pull-list">';
         results.forEach((char, index) => {
             let color = getRarityColor(char.rarity);
-            let borderColor = color;
             let upFlag = (char.featured && char.rarity === 6) ? ' ✨UP' : '';
             itemsHtml += `
-                <div class="ten-pull-item" style="border-left-color: ${borderColor};">
-                    <span class="ten-pull-number">${index + 1}.</span>
+                <div class="pull-item" style="border-left-color: ${color};">
+                    <span class="pull-number">${index + 1}.</span>
                     <span style="color: ${color}; font-weight: bold;">${char.name}</span>
-                    ${upFlag ? '<span style="color: #FFD700; font-size: 0.8rem;">(UP)</span>' : ''}
+                    ${upFlag ? '<span style="color: #FFD700; font-size: 0.75rem;">(UP)</span>' : ''}
                 </div>
             `;
         });
-        itemsHtml += '</div>';
-        resultArea.innerHTML = itemsHtml;
-        resultArea.scrollTop = 0;
     }
+    
+    itemsHtml += '</div>';
+    resultArea.innerHTML = itemsHtml;
+    resultArea.scrollTop = 0;
 }
 
 // ==================== 业务逻辑 ====================
@@ -376,12 +381,6 @@ function initCharacterList() {
 function bindEvents() {
     document.getElementById('singleBtn').addEventListener('click', singlePull);
     document.getElementById('tenBtn').addEventListener('click', tenPullHandler);
-    document.getElementById('resetBtn').addEventListener('click', () => {
-        if (confirm('重置后所有抽卡记录和保底将会清空，确定吗？')) {
-            resetSimulation();
-            updateFreeTenButtonUI();
-        }
-    });
 }
 
 // ==================== 启动应用 ====================

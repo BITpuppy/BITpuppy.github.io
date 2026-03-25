@@ -26,7 +26,7 @@
         <!-- 历史记录 -->
         <div class="card history-card">
             <div class="card-header">📜 抽卡记录</div>
-            <div class="card-content" style="padding: 8px 12px;">
+            <div class="card-content history-content">
                 <div class="history-box" id="historyBox">
                     <div style="color:#aaa; text-align:center;">暂无抽卡记录</div>
                 </div>
@@ -34,7 +34,7 @@
         </div>
 
         <!-- 统计信息 -->
-        <div class="card stats-card">
+        <div class="card">
             <div class="card-header">📊 抽卡统计</div>
             <div class="card-content">
                 <div class="stats-grid">
@@ -52,7 +52,7 @@
     <!-- 右侧面板 -->
     <div class="right-panel">
         <!-- 概率&保底 -->
-        <div class="card rate-card">
+        <div class="card">
             <div class="card-header">🎲 抽取概率</div>
             <div class="card-content">
                 <div class="info-grid">
@@ -72,20 +72,17 @@
         <div class="card result-card">
             <div class="card-header">🎯 抽取结果</div>
             <div class="result-area" id="resultArea">
-                <div style="color:#aaa;">点击「单抽」或「十连」开始</div>
+                <div style="color:#aaa; text-align:center;">点击「单抽」或「十连」开始</div>
             </div>
         </div>
 
-        <!-- 操作按钮 -->
-        <div class="card button-card">
+        <!-- 操作按钮 - 仅保留单抽和十连，移除重置按钮 -->
+        <div class="card">
             <div class="card-header">🎰 抽卡操作</div>
             <div class="card-content">
                 <div class="button-group">
                     <button id="singleBtn" class="btn-single">单抽</button>
                     <button id="tenBtn" class="btn-ten">十连</button>
-                </div>
-                <div class="button-group" style="margin-top: 10px;">
-                    <button id="resetBtn" class="btn-reset">重置模拟器</button>
                 </div>
             </div>
         </div>
